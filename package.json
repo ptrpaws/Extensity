@@ -1,0 +1,18 @@
+{
+  "name": "extensity",
+  "version": "1.14.0",
+  "description": "Quickly enable/disable Google Chrome extensions",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "copy": "mkdir -p dist && cp -r images styles js fonts *.html manifest.json dist/",
+    "minify:js": "uglifyjs dist/js/engine.js -o dist/js/engine.js -c -m && uglifyjs dist/js/index.js -o dist/js/index.js -c -m && uglifyjs dist/js/options.js -o dist/js/options.js -c -m && uglifyjs dist/js/profiles.js -o dist/js/profiles.js -c -m",
+    "minify:css": "sass dist/styles/index.css dist/styles/index.css --style=compressed && sass dist/styles/options.css dist/styles/options.css --style=compressed",
+    "build": "npm run clean && npm run copy && npm run minify:js && npm run minify:css",
+    "package": "npm run build && cd dist && zip -r extensity-v${npm_package_version}.zip ."
+  },
+  "devDependencies": {
+    "sass": "^1.90.0",
+    "uglify-js": "^3.19.3"
+  }
+}
