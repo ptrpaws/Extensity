@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
     self.close = function() { window.close(); }
 
     self.toggleAll = function() {
-      var exts = _(self.ext.extensions()).map(function(i) { return i.id(); });
+      var exts = self.ext.extensions().map(function(i) { return i.id(); });
       self.current_profile().items(exts);
     };
 
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   };
 
-  vm = new ProfilesViewModel();
+  const vm = new ProfilesViewModel();
 
   ko.bindingProvider.instance = new ko.secureBindingsProvider({});
   ko.applyBindings(vm, document.getElementById('profiles'));
