@@ -2,7 +2,7 @@
 FILES=index.html options.html profiles.html manifest.json
 DIRS=images styles js fonts
 DIST=dist
-JS=engine.js index.js options.js profiles.js migration.js
+JS=engine.js index.js options.js profiles.js
 CSS=index.css options.css normalize.css
 JSMIN=uglifyjs --compress --mangle
 CSSMIN=sass --stdin --style=compressed
