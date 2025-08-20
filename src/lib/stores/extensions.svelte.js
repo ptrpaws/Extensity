@@ -12,11 +12,11 @@ function createExtensionsStore() {
           const reactiveExt = $state({
             ...ext,
             get icon() {
-              if (!ext.icons || ext.icons.length === 0) return '/images/icon48.png';
+              if (!ext.icons || ext.icons.length === 0) return '/images/icon128.png';
               const bestIcon = ext.icons.reduce((prev, curr) => {
-                return Math.abs(curr.size - 16) < Math.abs(prev.size - 16) ? curr : prev;
+                return curr.size > prev.size ? curr : prev;
               });
-              return bestIcon?.url || '/images/icon48.png';
+              return bestIcon?.url || '/images/icon128.png';
             },
             toggle() {
               const newState = !reactiveExt.enabled;
