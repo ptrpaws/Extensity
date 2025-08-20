@@ -130,7 +130,7 @@
 <section id="header">
   <h1>
     <a href="https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg" id="title" target="_blank">
-      <img alt="" height="16" src="/images/icon16.png" width="16"/>&nbsp;Extensity
+      <img alt="" height="16" src="/images/icon128.png" width="16"/>&nbsp;Extensity
     </a>
     <div class="actions-group">
       <button aria-label="Switch all extensions off/on" class="switch" class:toggled-off={allToggledOff} onclick={flipAll}

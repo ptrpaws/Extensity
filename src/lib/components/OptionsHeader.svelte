@@ -71,7 +71,7 @@
 
 <section id="header">
   <div class="tabs">
-    <h1><img alt="" src="/images/icon48.png"/> Extensity Options</h1>
+    <h1><img alt="" src="/images/icon128.png" height="48" width="48"/> Extensity Options</h1>
     <div id="menu">
       <a class:selected={currentPage === 'options'} href="/options.html">Options</a>
       <a class:selected={currentPage === 'profiles'} href="/profiles.html">Profiles</a>

@@ -28,6 +28,7 @@
   li img {
     vertical-align: middle;
     margin-top: -2px;
+    image-rendering: crisp-edges;
   }
 
   li.disabled {
