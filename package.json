@@ -4,9 +4,7 @@
   "version": "1.14.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build --emptyOutDir",
-    "preview": "vite preview",
     "package": "npm run build && cd dist && zip -r extensity-v${npm_package_version}.zip ."
   },
   "devDependencies": {
