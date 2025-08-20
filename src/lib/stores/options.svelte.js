@@ -2,6 +2,8 @@ import { storageGet, storageSet } from './chrome.svelte.js';
 
 const DEFAULTS = {
   showHeader: true,
+  showHeaderSocial: true,
+  showHeaderActions: true,
   enabledFirst: false,
   searchBox: true,
   showOptions: true,

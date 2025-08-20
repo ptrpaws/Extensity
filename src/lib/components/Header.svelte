@@ -55,62 +55,67 @@
       <img alt="" height="16" src="/images/icon128.png" width="16" />&nbsp;Extensity
     </a>
     <div class="actions-group">
-      <button
-        aria-label="Switch all extensions off/on"
-        class="switch"
-        class:toggled-off={allToggledOff}
-        onclick={flipAll}
-        title="Switch all extensions off/on"
-        type="button"
-      >
-        <Icon data={toggleIcon} />
-      </button>
-      <a
-        aria-label="Chrome Extensions"
-        class="page"
-        href="chrome://extensions"
-        onclick={openExtensionsPage}
-        target="_blank"
-        title="Chrome Extensions"
-      >
-        <Icon data={puzzlePiece} />
-      </a>
-      <a aria-label="Profiles" class="page" href="profiles.html" target="_blank" title="Profiles">
-        <Icon data={userCircleO} />
-      </a>
-      <a
-        aria-label="Extensity options"
-        class="page"
-        href="options.html"
-        target="_blank"
-        title="Extensity options"
-      >
-        <Icon data={cog} />
-      </a>
-      <a
-        href="https://twitter.com/share?url=https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg&via=ExtensityChrome&text=Keep control of your Chrome extensions with Extensity. Quickly enable/disable any extension!"
-        class="page twitter-icon"
-        target="_blank"
-        title="Share Extensity on Twitter. Thanks!"
-      >
-        <Icon data={twitter} />
-      </a>
-      <a
-        href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg?hl=en"
-        class="page facebook-icon"
-        target="_blank"
-        title="Share Extensity on Facebook. Thanks!"
-      >
-        <Icon data={facebookOfficial} />
-      </a>
-      <a
-        href="https://chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg/reviews"
-        class="page star-icon"
-        target="_blank"
-        title="Rate Extensity. Thanks!"
-      >
-        <Icon data={star} />
-      </a>
+      {#if optionsState.showHeaderActions}
+        <button
+          aria-label="Switch all extensions off/on"
+          class="switch"
+          class:toggled-off={allToggledOff}
+          onclick={flipAll}
+          title="Switch all extensions off/on"
+          type="button"
+        >
+          <Icon data={toggleIcon} />
+        </button>
+        <a
+          aria-label="Chrome Extensions"
+          class="page"
+          href="chrome://extensions"
+          onclick={openExtensionsPage}
+          target="_blank"
+          title="Chrome Extensions"
+        >
+          <Icon data={puzzlePiece} />
+        </a>
+        <a aria-label="Profiles" class="page" href="profiles.html" target="_blank" title="Profiles">
+          <Icon data={userCircleO} />
+        </a>
+        <a
+          aria-label="Extensity options"
+          class="page"
+          href="options.html"
+          target="_blank"
+          title="Extensity options"
+        >
+          <Icon data={cog} />
+        </a>
+      {/if}
+
+      {#if optionsState.showHeaderSocial}
+        <a
+          href="https://twitter.com/share?url=https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg&via=ExtensityChrome&text=Keep control of your Chrome extensions with Extensity. Quickly enable/disable any extension!"
+          class="page twitter-icon"
+          target="_blank"
+          title="Share Extensity on Twitter. Thanks!"
+        >
+          <Icon data={twitter} />
+        </a>
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg?hl=en"
+          class="page facebook-icon"
+          target="_blank"
+          title="Share Extensity on Facebook. Thanks!"
+        >
+          <Icon data={facebookOfficial} />
+        </a>
+        <a
+          href="https://chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg/reviews"
+          class="page star-icon"
+          target="_blank"
+          title="Rate Extensity. Thanks!"
+        >
+          <Icon data={star} />
+        </a>
+      {/if}
     </div>
   </h1>
 </section>
