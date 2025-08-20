@@ -8,6 +8,8 @@
   import Header from '../lib/components/Header.svelte';
   import ItemList from '../lib/components/ItemList.svelte';
   import ContentSection from '../lib/components/ContentSection.svelte';
+  import ContextMenu from '../lib/components/ContextMenu.svelte';
+  import DetailsModal from '../lib/components/DetailsModal.svelte';
   import Icon from 'svelte-awesome';
   import search from 'svelte-awesome/icons/search';
   import exclamationTriangle from 'svelte-awesome/icons/exclamationTriangle';
@@ -19,10 +21,48 @@
   let searchQuery = $state('');
   let activeProfileName = $state(null);
 
+  let contextMenu = $state({
+    visible: false,
+    x: 0,
+    y: 0,
+    item: null
+  });
+
+  let detailsModal = $state({
+    visible: false,
+    item: null
+  });
+
   onMount(async () => {
     const data = await sessionGet(['activeProfile']);
     activeProfileName = data.activeProfile || null;
   });
+
+  function showContextMenu(event, item) {
+    closeContextMenu();
+    setTimeout(() => {
+      contextMenu.visible = true;
+      contextMenu.x = event.clientX;
+      contextMenu.y = event.clientY;
+      contextMenu.item = item;
+    }, 10);
+  }
+
+  function closeContextMenu() {
+    contextMenu.visible = false;
+    contextMenu.item = null;
+  }
+
+  function openDetailsModal(item) {
+    closeContextMenu();
+    detailsModal.visible = true;
+    detailsModal.item = item;
+  }
+
+  function closeDetailsModal() {
+    detailsModal.visible = false;
+    detailsModal.item = null;
+  }
 
   const favoritesProfile = $derived(profiles.find('__favorites'));
 
@@ -98,6 +138,7 @@
 
   .popup-container {
     padding: 5px 7px 0 7px;
+    position: relative;
   }
 
   #search {
@@ -239,9 +280,19 @@
       </ContentSection>
     {/if}
 
-    <ItemList title="Favorites" items={favoriteExtensions} {handleItemClick}/>
+    <ItemList
+      title="Favorites"
+      items={favoriteExtensions}
+      {handleItemClick}
+      oncontextmenu={showContextMenu}
+    />
 
-    <ItemList title="Extensions" items={filteredExtensions} {handleItemClick}/>
+    <ItemList
+      title="Extensions"
+      items={filteredExtensions}
+      {handleItemClick}
+      oncontextmenu={showContextMenu}
+    />
 
     {#if favoriteExtensions.length === 0 && filteredExtensions.length === 0}
       <p class="empty">
@@ -250,4 +301,18 @@
       </p>
     {/if}
   </section>
+
+  {#if contextMenu.visible}
+    <ContextMenu
+      item={contextMenu.item}
+      x={contextMenu.x}
+      y={contextMenu.y}
+      onClose={closeContextMenu}
+      onViewPermissions={() => openDetailsModal(contextMenu.item)}
+    />
+  {/if}
+
+  {#if detailsModal.visible}
+    <DetailsModal item={detailsModal.item} onClose={closeDetailsModal} />
+  {/if}
 </div>

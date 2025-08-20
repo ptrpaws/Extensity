@@ -5,7 +5,7 @@
   import cog from 'svelte-awesome/icons/cog';
   import {prune} from '../utils.js';
 
-  let {item, onclick = () => {}} = $props();
+  let {item, onclick = () => {}, oncontextmenu = () => {}} = $props();
 
   function launchOptions(event) {
     event.stopPropagation();
@@ -89,7 +89,12 @@
   }
 </style>
 
-<li class:disabled={!item.enabled && item.type === 'extension'}>
+<li oncontextmenu={(event) => {
+    event.preventDefault();
+    oncontextmenu(event);
+  }}
+    class:disabled={!item.enabled && item.type === 'extension'}
+>
   <button class="main-action" {onclick} type="button">
     <img alt="" height="16" src={item.icon} width="16"/>
     <span class="name">{prune(item.name, 40)}</span>
