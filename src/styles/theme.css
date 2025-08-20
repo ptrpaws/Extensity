@@ -59,7 +59,7 @@
     --h1-text: #ccc;
     --h1-text-shadow: 0 1px 1px rgba(0, 0, 0, .7);
 
-    --li-hover-bg: #777;
+    --li-hover-bg: #555;
     --li-hover-shadow: 0 0 15px rgba(0, 0, 0, .2) inset;
     --li-hover-text-shadow: 0 1px 0 black;
     --disabled-bg: transparent;
