@@ -25,6 +25,20 @@
     border-radius: 2px;
   }
 
+  li:hover .main-action {
+    text-shadow: var(--li-hover-text-shadow);
+  }
+
+  li:hover .options-button :global(svg) {
+    filter: drop-shadow(0 1px 0px white);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    li:hover .options-button :global(svg) {
+      filter: drop-shadow(0 1px 0px black);
+    }
+  }
+
   li img {
     vertical-align: middle;
     margin-top: -2px;
@@ -71,10 +85,17 @@
     font-size: 1.1em;
     color: #777;
     line-height: 1;
+    transition: color 0.1s ease-in-out;
   }
 
   .options-button:hover {
     color: #333;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .options-button:hover {
+      color: #eee;
+    }
   }
 
   .dev-icon :global(svg) {
@@ -89,11 +110,12 @@
   }
 </style>
 
-<li oncontextmenu={(event) => {
+<li
+  oncontextmenu={(event) => {
     event.preventDefault();
     oncontextmenu(event);
   }}
-    class:disabled={!item.enabled && item.type === 'extension'}
+  class:disabled={!item.enabled && item.type === 'extension'}
 >
   <button class="main-action" {onclick} type="button">
     <img alt="" height="16" src={item.icon} width="16"/>
