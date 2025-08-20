@@ -22,9 +22,15 @@
 
 <section id="content">
   <fieldset id="options">
-    <legend>Layout</legend>
+    <legend>Header</legend>
     <CheckboxOption bind:checked={optionsState.showHeader} id="showHeader">
       Show header at the top
+    </CheckboxOption>
+    <CheckboxOption bind:checked={optionsState.showHeaderActions} id="showHeaderActions">
+      Show action icons (Toggle All, etc.)
+    </CheckboxOption>
+    <CheckboxOption bind:checked={optionsState.showHeaderSocial} id="showHeaderSocial">
+      Show social & rating icons
     </CheckboxOption>
     <CheckboxOption bind:checked={optionsState.searchBox} id="searchBox">
       Show search box
