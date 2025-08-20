@@ -2,3 +2,5 @@ dist/
 node_modules/
 .project
 .vscode
+.idea
+.DS_Store

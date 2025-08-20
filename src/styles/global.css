@@ -1,0 +1,89 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+body.options-page {
+  margin: 50px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+button.primary,
+.options-page button {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  color: #ffffff;
+  background-color: #516C97;
+  border-color: #516C97;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 7px 10px;
+}
+
+button.primary:hover,
+.options-page button:hover {
+  opacity: .8;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: normal;
+  color: inherit;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.options-page fieldset {
+  margin-top: .5em;
+  border: none;
+}
+
+.options-page fieldset legend {
+  float: left;
+  clear: left;
+  padding: 10px 3px;
+  border-bottom: 1px solid var(--options-legend-border);
+  font-weight: bold;
+  color: var(--options-legend-text);
+}
+
+#save-result {
+  color: var(--save-result-text);
+}
+
+.main {
+  float: left;
+  clear: both;
+  min-width: 280px;
+  padding: 0px 7px;
+  width: 95%;
+  box-sizing: border-box;
+}
