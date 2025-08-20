@@ -55,18 +55,10 @@
       })
   );
 
-  const filteredApps = $derived(
-    extensions.apps.filter((app) => app.name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-
   async function handleItemClick(item) {
-    if (item.type === 'extension') {
-      item.toggle();
-      activeProfileName = null;
-      await sessionSet({activeProfile: null});
-    } else {
-      await chrome.management.launchApp(item.id);
-    }
+    item.toggle();
+    activeProfileName = null;
+    await sessionSet({activeProfile: null});
   }
 
   async function applyProfile(profile) {
@@ -249,23 +241,9 @@
 
     <ItemList title="Favorites" items={favoriteExtensions} {handleItemClick}/>
 
-    {#if optionsState.groupApps}
-      {#if optionsState.appsFirst}
-        <ItemList title="Apps" items={filteredApps} {handleItemClick}/>
-        <ItemList title="Extensions" items={filteredExtensions} {handleItemClick}/>
-      {:else}
-        <ItemList title="Extensions" items={filteredExtensions} {handleItemClick}/>
-        <ItemList title="Apps" items={filteredApps} {handleItemClick}/>
-      {/if}
-    {:else}
-      <ItemList
-        title="Extensions & Apps"
-        items={[...filteredExtensions, ...filteredApps].sort((a, b) => a.name.localeCompare(b.name))}
-        {handleItemClick}
-      />
-    {/if}
+    <ItemList title="Extensions" items={filteredExtensions} {handleItemClick}/>
 
-    {#if favoriteExtensions.length === 0 && filteredExtensions.length === 0 && filteredApps.length === 0}
+    {#if favoriteExtensions.length === 0 && filteredExtensions.length === 0}
       <p class="empty">
         <Icon data={exclamationTriangle}/>
         <br/>No items found.

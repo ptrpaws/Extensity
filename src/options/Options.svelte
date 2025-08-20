@@ -41,13 +41,7 @@
       Show search box
     </CheckboxOption>
 
-    <legend>Apps &amp; Extensions</legend>
-    <CheckboxOption bind:checked={optionsState.groupApps} id="groupApps">
-      Group Apps and Extensions
-    </CheckboxOption>
-    <CheckboxOption bind:checked={optionsState.appsFirst} id="appsFirst">
-      Show Apps first when grouped
-    </CheckboxOption>
+    <legend>Extensions</legend>
     <CheckboxOption bind:checked={optionsState.enabledFirst} id="enabledFirst">
       Show enabled Extensions at the top
     </CheckboxOption>
@@ -68,7 +62,7 @@
       <button type="button" class="link-button" id="close" onclick={closeWindow}>Close</button>
       {#if saveMessageVisible}
         <span id="save-result" class:visible={saveMessageVisible}>| Saved!</span>
-        {/if}
+      {/if}
     </div>
   </fieldset>
 </section>

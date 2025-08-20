@@ -7,8 +7,6 @@
 
   let {item, onclick = () => {}} = $props();
 
-  const isApp = ['hosted_app', 'packaged_app'].includes(item.type);
-
   function launchOptions(event) {
     event.stopPropagation();
     chrome.tabs.create({url: item.optionsUrl});
@@ -90,7 +88,7 @@
   }
 </style>
 
-<li class:app={isApp} class:disabled={!item.enabled && item.type === 'extension'}>
+<li class:disabled={!item.enabled && item.type === 'extension'}>
   <button class="main-action" {onclick} type="button">
     <img alt="" height="16" src={item.icon} width="16"/>
     <span class="name">{prune(item.name, 40)}</span>

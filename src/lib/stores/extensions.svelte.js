@@ -38,7 +38,6 @@ function createExtensionsStore() {
   })();
 
   const extensions = $derived(all.filter((item) => item.type === 'extension' && item.mayDisable));
-  const apps = $derived(all.filter((item) => ['hosted_app', 'packaged_app'].includes(item.type)));
 
   const enabled = $derived(extensions.filter((item) => item.enabled));
   const disabled = $derived(extensions.filter((item) => !item.enabled));
@@ -49,9 +48,6 @@ function createExtensionsStore() {
     },
     get extensions() {
       return extensions;
-    },
-    get apps() {
-      return apps;
     },
     get enabled() {
       return enabled;
