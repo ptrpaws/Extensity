@@ -1,9 +1,9 @@
 <script>
-  import {onMount} from 'svelte';
-  import {extensions} from '../lib/stores/extensions.svelte.js';
-  import {state as optionsState} from '../lib/stores/options.svelte.js';
-  import {profiles} from '../lib/stores/profiles.svelte.js';
-  import {sessionGet, sessionSet} from '../lib/stores/chrome.svelte.js';
+  import { onMount } from 'svelte';
+  import { extensions } from '../lib/stores/extensions.svelte.js';
+  import { state as optionsState } from '../lib/stores/options.svelte.js';
+  import { profiles } from '../lib/stores/profiles.svelte.js';
+  import { sessionGet, sessionSet } from '../lib/stores/chrome.svelte.js';
 
   import Header from '../lib/components/Header.svelte';
   import ItemList from '../lib/components/ItemList.svelte';
@@ -25,12 +25,12 @@
     visible: false,
     x: 0,
     y: 0,
-    item: null
+    item: null,
   });
 
   let detailsModal = $state({
     visible: false,
-    item: null
+    item: null,
   });
 
   onMount(async () => {
@@ -67,19 +67,19 @@
   const favoritesProfile = $derived(profiles.find('__favorites'));
 
   const listedProfiles = $derived(
-    profiles.items.filter(p => {
+    profiles.items.filter((p) => {
       if (!p.isReserved) return true;
       return optionsState.showReserved && p.value.items.length > 0;
-    })
+    }),
   );
 
   const favoriteExtensions = $derived(
     favoritesProfile && favoritesProfile.value.items.length > 0
       ? extensions.extensions
-        .filter((ext) => favoritesProfile.value.items.includes(ext.id))
-        .filter((ext) => ext.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        .sort((a, b) => a.name.localeCompare(b.name))
-      : []
+          .filter((ext) => favoritesProfile.value.items.includes(ext.id))
+          .filter((ext) => ext.name.toLowerCase().includes(searchQuery.toLowerCase()))
+          .sort((a, b) => a.name.localeCompare(b.name))
+      : [],
   );
 
   const filteredExtensions = $derived(
@@ -92,13 +92,13 @@
           }
         }
         return a.name.localeCompare(b.name);
-      })
+      }),
   );
 
   async function handleItemClick(item) {
     item.toggle();
     activeProfileName = null;
-    await sessionSet({activeProfile: null});
+    await sessionSet({ activeProfile: null });
   }
 
   async function applyProfile(profile) {
@@ -108,18 +108,101 @@
 
     const targetIds = new Set([...profileIds, ...alwaysOnIds]);
 
-    extensions.disabled.forEach(ext => {
+    extensions.disabled.forEach((ext) => {
       if (targetIds.has(ext.id)) ext.toggle();
     });
 
-    extensions.enabled.forEach(ext => {
+    extensions.enabled.forEach((ext) => {
       if (!targetIds.has(ext.id)) ext.toggle();
     });
 
     activeProfileName = profile.value.name;
-    await sessionSet({activeProfile: profile.value.name});
+    await sessionSet({ activeProfile: profile.value.name });
   }
 </script>
+
+<div class="popup-container">
+  {#if optionsState.showHeader}
+    <Header />
+  {/if}
+
+  {#if optionsState.searchBox}
+    <section id="search">
+      <p>
+        <span class="search-icon"><Icon data={search} /></span>
+        <!-- svelte-ignore a11y_autofocus -->
+        <input type="text" bind:value={searchQuery} placeholder="Search..." autofocus />
+      </p>
+    </section>
+  {/if}
+
+  <section id="content">
+    {#if listedProfiles.length > 0 && !searchQuery}
+      <ContentSection title="Profiles">
+        <ul>
+          {#each listedProfiles as profile (profile.value.name)}
+            <li class="profile-list-item">
+              <button type="button" class="profile-button" onclick={() => applyProfile(profile)}>
+                {#if profile.value.name === activeProfileName}
+                  <span class="profile-check-icon">
+                    <Icon data={check} />
+                  </span>
+                {:else}
+                  <span class="profile-icon">
+                    {#if profile.value.name === '__always_on'}
+                      <Icon data={lightbulbO} />
+                    {:else if profile.value.name === '__favorites'}
+                      <Icon data={star} />
+                    {:else}
+                      <Icon data={userCircleO} />
+                    {/if}
+                  </span>
+                {/if}
+
+                <span>{profile.shortName}</span>
+              </button>
+            </li>
+          {/each}
+        </ul>
+      </ContentSection>
+    {/if}
+
+    <ItemList
+      title="Favorites"
+      items={favoriteExtensions}
+      {handleItemClick}
+      oncontextmenu={showContextMenu}
+    />
+
+    <ItemList
+      title="Extensions"
+      items={filteredExtensions}
+      {handleItemClick}
+      oncontextmenu={showContextMenu}
+    />
+
+    {#if favoriteExtensions.length === 0 && filteredExtensions.length === 0}
+      <p class="empty">
+        <Icon data={exclamationTriangle} />
+        <br />No items found.
+      </p>
+    {/if}
+  </section>
+
+  {#if contextMenu.visible}
+    <ContextMenu
+      item={contextMenu.item}
+      x={contextMenu.x}
+      y={contextMenu.y}
+      onClose={closeContextMenu}
+      onViewPermissions={() => openDetailsModal(contextMenu.item)}
+    />
+  {/if}
+
+  {#if detailsModal.visible}
+    <DetailsModal item={detailsModal.item} onClose={closeDetailsModal} />
+  {/if}
+</div>
 
 <style>
   :global(body) {
@@ -127,7 +210,10 @@
     margin: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    font-family: Lucida Grande, Arial, sans-serif;
+    font-family:
+      Lucida Grande,
+      Arial,
+      sans-serif;
     font-size: 12px;
     min-height: fit-content;
     user-select: none;
@@ -146,7 +232,7 @@
   }
 
   #content {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 
   #search p {
@@ -205,7 +291,8 @@
     border-radius: 2px;
   }
 
-  .profile-icon, .profile-check-icon {
+  .profile-icon,
+  .profile-check-icon {
     min-width: 15px;
     text-align: center;
     display: inline-block;
@@ -232,87 +319,3 @@
     vertical-align: -0.125em;
   }
 </style>
-
-<div class="popup-container">
-  {#if optionsState.showHeader}
-    <Header/>
-  {/if}
-
-  {#if optionsState.searchBox}
-    <section id="search">
-      <p>
-        <span class="search-icon"><Icon data={search}/></span>
-        <!-- svelte-ignore a11y_autofocus -->
-        <input type="text" bind:value={searchQuery} placeholder="Search..." autofocus/>
-      </p>
-    </section>
-  {/if}
-
-  <section id="content">
-    {#if listedProfiles.length > 0 && !searchQuery}
-      <ContentSection title="Profiles">
-        <ul>
-          {#each listedProfiles as profile (profile.value.name)}
-            <li class="profile-list-item">
-              <button type="button" class="profile-button" onclick={() => applyProfile(profile)}>
-
-                {#if profile.value.name === activeProfileName}
-                  <span class="profile-check-icon">
-                    <Icon data={check}/>
-                  </span>
-                {:else}
-                  <span class="profile-icon">
-                    {#if profile.value.name === '__always_on'}
-                      <Icon data={lightbulbO}/>
-                    {:else if profile.value.name === '__favorites'}
-                      <Icon data={star}/>
-                    {:else}
-                      <Icon data={userCircleO}/>
-                    {/if}
-                  </span>
-                {/if}
-
-                <span>{profile.shortName}</span>
-              </button>
-            </li>
-          {/each}
-        </ul>
-      </ContentSection>
-    {/if}
-
-    <ItemList
-      title="Favorites"
-      items={favoriteExtensions}
-      {handleItemClick}
-      oncontextmenu={showContextMenu}
-    />
-
-    <ItemList
-      title="Extensions"
-      items={filteredExtensions}
-      {handleItemClick}
-      oncontextmenu={showContextMenu}
-    />
-
-    {#if favoriteExtensions.length === 0 && filteredExtensions.length === 0}
-      <p class="empty">
-        <Icon data={exclamationTriangle}/>
-        <br/>No items found.
-      </p>
-    {/if}
-  </section>
-
-  {#if contextMenu.visible}
-    <ContextMenu
-      item={contextMenu.item}
-      x={contextMenu.x}
-      y={contextMenu.y}
-      onClose={closeContextMenu}
-      onViewPermissions={() => openDetailsModal(contextMenu.item)}
-    />
-  {/if}
-
-  {#if detailsModal.visible}
-    <DetailsModal item={detailsModal.item} onClose={closeDetailsModal} />
-  {/if}
-</div>

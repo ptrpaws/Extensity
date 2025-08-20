@@ -1,10 +1,10 @@
 <script>
-  import {extensions} from '../stores/extensions.svelte.js';
-  import {prune} from '../utils.js';
+  import { extensions } from '../stores/extensions.svelte.js';
+  import { prune } from '../utils.js';
   import Icon from 'svelte-awesome';
   import flask from 'svelte-awesome/icons/flask';
 
-  let {currentProfile} = $props();
+  let { currentProfile } = $props();
 
   function toggleAllInProfile() {
     if (!currentProfile) return;
@@ -25,6 +25,36 @@
     return map;
   });
 </script>
+
+{#if currentProfile}
+  <div class="extensions">
+    <p class="toggle">
+      <button type="button" class="link-button" onclick={toggleAllInProfile}>All</button>
+      |
+      <button type="button" class="link-button" onclick={toggleNoneInProfile}>None</button>
+    </p>
+    <ul>
+      {#each extensions.extensions as ext (ext.id)}
+        <li>
+          <label for={ext.id}>
+            <input
+              type="checkbox"
+              id={ext.id}
+              checked={extensionInProfileMap.has(ext.id)}
+              onchange={() => currentProfile.toggleExtension(ext.id)}
+            />
+            <img src={ext.icon} width="16" height="16" alt="" />
+            <span>{prune(ext.name, 40)}</span>
+            {#if ext.installType === 'development'}
+              <Icon data={flask} title="Development" />
+            {/if}
+          </label>
+        </li>
+      {/each}
+    </ul>
+  </div>
+{/if}
+
 <style>
   .extensions {
     float: left;
@@ -63,32 +93,3 @@
     cursor: pointer;
   }
 </style>
-
-{#if currentProfile}
-  <div class="extensions">
-    <p class="toggle">
-      <button type="button" class="link-button" onclick={toggleAllInProfile}>All</button>
-      |
-      <button type="button" class="link-button" onclick={toggleNoneInProfile}>None</button>
-    </p>
-    <ul>
-      {#each extensions.extensions as ext (ext.id)}
-        <li>
-          <label for={ext.id}>
-            <input
-              type="checkbox"
-              id={ext.id}
-              checked={extensionInProfileMap.has(ext.id)}
-              onchange={() => currentProfile.toggleExtension(ext.id)}
-            />
-            <img src={ext.icon} width="16" height="16" alt=""/>
-            <span>{prune(ext.name, 40)}</span>
-            {#if ext.installType === 'development'}
-              <Icon data={flask} title="Development"/>
-            {/if}
-          </label>
-        </li>
-      {/each}
-    </ul>
-  </div>
-{/if}

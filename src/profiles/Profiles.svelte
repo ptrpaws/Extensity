@@ -1,5 +1,5 @@
 <script>
-  import {profiles} from '../lib/stores/profiles.svelte.js';
+  import { profiles } from '../lib/stores/profiles.svelte.js';
   import OptionsHeader from '../lib/components/OptionsHeader.svelte';
   import ProfileSidebar from '../lib/components/ProfileSidebar.svelte';
   import ExtensionChecklist from '../lib/components/ExtensionChecklist.svelte';
@@ -41,6 +41,62 @@
     window.close();
   }
 </script>
+
+<OptionsHeader currentPage="profiles" />
+
+<div id="content">
+  <div class="instructions">
+    <p class="info">
+      <Icon data={infoCircle} />
+      <span>
+        <strong> How Profiles Work:</strong>
+        <br /><br />When activating a profile,
+        <strong>selected extensions will be enabled, and all the rest will be disabled.</strong>
+        <br /><br />You can create as many profiles as you want. Try to put descriptive names such
+        as "Browsing", "Shopping", "Work", etc. <br /><br /><Icon data={lightbulbO} />
+        <strong>Always On</strong>: Extensions that should be always enabled when switching to
+        different profiles. You can still manually disable each extension when needed.
+        <br /><br /><Icon data={star} />
+        <strong>Favorites</strong>: Frequently used Extensions that will show up at the top of the
+        list.
+      </span>
+    </p>
+  </div>
+
+  <fieldset id="profiles">
+    <div class="left-column">
+      <ProfileSidebar
+        profiles={profiles.items}
+        {currentProfile}
+        onAdd={handleAddProfile}
+        onRemove={handleRemoveProfile}
+        onSelect={(profile) => (currentProfile = profile)}
+      />
+      <div class="save-area">
+        <hr />
+        <p>
+          <small
+            ><em>Note: no changes will be applied until you click on the "Save" button.</em></small
+          >
+        </p>
+        <button id="save" onclick={saveProfiles}>Save</button>&nbsp;
+        <button type="button" class="link-button" id="close" onclick={closeWindow}>Close</button>
+        {#if saveMessageVisible}
+          <span id="save-result" class:visible={saveMessageVisible}>| Saved!</span>
+        {/if}
+        {#if profiles.localProfiles}
+          <p class="quota-error">
+            <Icon data={exclamationTriangle} />
+            Sync quota exceeded.
+            <b>Your Profiles are saved on this browser only</b>.
+          </p>
+        {/if}
+      </div>
+    </div>
+
+    <ExtensionChecklist {currentProfile} />
+  </fieldset>
+</div>
 
 <style>
   .instructions {
@@ -96,59 +152,3 @@
     vertical-align: -0.125em;
   }
 </style>
-
-<OptionsHeader currentPage="profiles"/>
-
-<div id="content">
-  <div class="instructions">
-    <p class="info">
-      <Icon data={infoCircle}/>
-      <span>
-        <strong> How Profiles Work:</strong>
-        <br/><br/>When activating a profile,
-        <strong>selected extensions will be enabled, and all the rest will be disabled.</strong>
-        <br/><br/>You can create as many profiles as you want. Try to put descriptive
-        names such as "Browsing", "Shopping", "Work", etc. <br/><br/><Icon
-        data={lightbulbO}
-      />
-        <strong>Always On</strong>: Extensions that should be always enabled when switching
-        to different profiles. You can still manually disable each extension when needed.
-        <br/><br/><Icon data={star}/>
-        <strong>Favorites</strong>: Frequently used Extensions that will show up at the
-        top of the list.
-      </span>
-    </p>
-  </div>
-
-  <fieldset id="profiles">
-    <div class="left-column">
-      <ProfileSidebar
-        profiles={profiles.items}
-        {currentProfile}
-        onAdd={handleAddProfile}
-        onRemove={handleRemoveProfile}
-        onSelect={(profile) => currentProfile = profile}
-      />
-      <div class="save-area">
-        <hr/>
-        <p>
-          <small><em>Note: no changes will be applied until you click on the "Save" button.</em></small>
-        </p>
-        <button id="save" onclick={saveProfiles}>Save</button>&nbsp;
-        <button type="button" class="link-button" id="close" onclick={closeWindow}>Close</button>
-        {#if saveMessageVisible}
-          <span id="save-result" class:visible={saveMessageVisible}>| Saved!</span>
-        {/if}
-        {#if profiles.localProfiles}
-          <p class="quota-error">
-            <Icon data={exclamationTriangle}/>
-            Sync quota exceeded.
-            <b>Your Profiles are saved on this browser only</b>.
-          </p>
-        {/if}
-      </div>
-    </div>
-
-    <ExtensionChecklist {currentProfile}/>
-  </fieldset>
-</div>

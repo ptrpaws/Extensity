@@ -2,8 +2,9 @@
   import Item from './Item.svelte';
   import ContentSection from './ContentSection.svelte';
 
-  let {title, items, handleItemClick, oncontextmenu = () => {}} = $props();
+  let { title, items, handleItemClick, oncontextmenu = () => {} } = $props();
 </script>
+
 {#if items.length > 0}
   <ContentSection {title}>
     <ul>

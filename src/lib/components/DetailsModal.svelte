@@ -1,9 +1,9 @@
 <script>
-  import {onMount} from 'svelte';
+  import { onMount } from 'svelte';
   import Icon from 'svelte-awesome';
   import times from 'svelte-awesome/icons/times';
 
-  let {item, onClose = () => {}} = $props();
+  let { item, onClose = () => {} } = $props();
 
   let dialogElement;
   let permissions = $state({
@@ -24,8 +24,8 @@
           permissions.warnings = warnings;
         }
       } catch (e) {
-        console.error("Could not fetch permission warnings:", e);
-        if (active) permissions.warnings = ["Could not load warnings."];
+        console.error('Could not fetch permission warnings:', e);
+        if (active) permissions.warnings = ['Could not load warnings.'];
       } finally {
         if (active) permissions.loading = false;
       }
@@ -45,9 +45,64 @@
 
     return () => {
       dialogElement?.removeEventListener('close', onClose);
-    }
+    };
   });
 </script>
+
+<dialog
+  bind:this={dialogElement}
+  onclick={(event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  }}
+>
+  <div>
+    <header>
+      <h2>{item.name}</h2>
+      <button class="close-button" onclick={onClose} title="Close (Esc)"
+        ><Icon data={times} /></button
+      >
+    </header>
+
+    <div class="content">
+      <h3>Permission Warnings</h3>
+      {#if permissions.loading}
+        <p>Loading...</p>
+      {:else if permissions.warnings.length > 0}
+        <ul>
+          {#each permissions.warnings as warning}
+            <li>{warning}</li>
+          {/each}
+        </ul>
+      {:else}
+        <p class="empty-list">No special permission warnings.</p>
+      {/if}
+
+      <h3>Host Permissions (Websites)</h3>
+      {#if permissions.host.length > 0}
+        <ul>
+          {#each permissions.host as host}
+            <li>{host}</li>
+          {/each}
+        </ul>
+      {:else}
+        <p class="empty-list">No specific website access requested.</p>
+      {/if}
+
+      <h3>API Permissions</h3>
+      {#if permissions.api.length > 0}
+        <ul>
+          {#each permissions.api as api}
+            <li>{api}</li>
+          {/each}
+        </ul>
+      {:else}
+        <p class="empty-list">No browser API access requested.</p>
+      {/if}
+    </div>
+  </div>
+</dialog>
 
 <style>
   dialog::backdrop {
@@ -129,56 +184,3 @@
     font-size: 12px;
   }
 </style>
-
-<dialog
-  bind:this={dialogElement}
-  onclick={(event) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  }}
->
-  <div>
-    <header>
-      <h2>{item.name}</h2>
-      <button class="close-button" onclick={onClose} title="Close (Esc)"><Icon data={times}/></button>
-    </header>
-
-    <div class="content">
-      <h3>Permission Warnings</h3>
-      {#if permissions.loading}
-        <p>Loading...</p>
-      {:else if permissions.warnings.length > 0}
-        <ul>
-          {#each permissions.warnings as warning}
-            <li>{warning}</li>
-          {/each}
-        </ul>
-      {:else}
-        <p class="empty-list">No special permission warnings.</p>
-      {/if}
-
-      <h3>Host Permissions (Websites)</h3>
-      {#if permissions.host.length > 0}
-        <ul>
-          {#each permissions.host as host}
-            <li>{host}</li>
-          {/each}
-        </ul>
-      {:else}
-        <p class="empty-list">No specific website access requested.</p>
-      {/if}
-
-      <h3>API Permissions</h3>
-      {#if permissions.api.length > 0}
-        <ul>
-          {#each permissions.api as api}
-            <li>{api}</li>
-          {/each}
-        </ul>
-      {:else}
-        <p class="empty-list">No browser API access requested.</p>
-      {/if}
-    </div>
-  </div>
-</dialog>

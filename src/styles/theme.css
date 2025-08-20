@@ -3,7 +3,7 @@
   --color-text: #000;
   --color-text-subtle: #555;
   --color-text-disabled: #555;
-  --color-text-link: #516C97;
+  --color-text-link: #516c97;
 
   --header-bg: transparent;
   --header-title: #304669;
@@ -13,25 +13,25 @@
   --search-bg-gradient: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
   --search-text: #555;
 
-  --h1-bg: #516C97;
-  --h1-bg-gradient: linear-gradient(to bottom, #7F97B9, #516C97);
+  --h1-bg: #516c97;
+  --h1-bg-gradient: linear-gradient(to bottom, #7f97b9, #516c97);
   --h1-text: #fff;
-  --h1-text-shadow: 0 1px 1px rgba(0, 0, 0, .7);
+  --h1-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
 
   --li-hover-bg: #e0e0e0;
-  --li-hover-shadow: 0 0 15px rgba(0, 0, 0, .2) inset;
+  --li-hover-shadow: 0 0 15px rgba(0, 0, 0, 0.2) inset;
   --li-hover-text-shadow: 0 1px 0 white;
   --disabled-bg: #eee;
   --disabled-icon-opacity: 0.3;
 
   --options-legend-border: #304669;
-  --options-legend-text: #516C97;
+  --options-legend-text: #516c97;
   --save-result-text: #304669;
   --profiles-info-bg: #aaa;
   --profiles-active-bg: #ddd;
   --profiles-toggle-bg: #ddd;
   --profiles-input-border: #bbb;
-  --help-box-bg: #FFD478;
+  --help-box-bg: #ffd478;
 
   --input-bg: var(--color-bg);
   --input-text: var(--color-text);
@@ -51,16 +51,20 @@
     --header-icon: #eee;
     --header-icon-off: #aaa;
 
-    --search-bg-gradient: linear-gradient(to bottom, rgba(255, 255, 255, .1) 0%, rgba(255, 255, 255, .2) 100%);
+    --search-bg-gradient: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
     --search-text: #ccc;
 
-    --h1-bg: #516C97;
-    --h1-bg-gradient: linear-gradient(to bottom, #7F97B9, #516C97);
+    --h1-bg: #516c97;
+    --h1-bg-gradient: linear-gradient(to bottom, #7f97b9, #516c97);
     --h1-text: #ccc;
-    --h1-text-shadow: 0 1px 1px rgba(0, 0, 0, .7);
+    --h1-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
 
     --li-hover-bg: #555;
-    --li-hover-shadow: 0 0 15px rgba(0, 0, 0, .2) inset;
+    --li-hover-shadow: 0 0 15px rgba(0, 0, 0, 0.2) inset;
     --li-hover-text-shadow: 0 1px 0 black;
     --disabled-bg: transparent;
     --disabled-icon-opacity: 0.3;
@@ -72,7 +76,7 @@
     --profiles-active-bg: #777;
     --profiles-toggle-bg: #777;
     --profiles-input-border: #999;
-    --help-box-bg: #516C97;
+    --help-box-bg: #516c97;
 
     --input-bg: #777;
     --input-text: white;

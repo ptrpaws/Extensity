@@ -1,6 +1,13 @@
 <script>
-  let {title, children} = $props();
+  let { title, children } = $props();
 </script>
+
+<section>
+  {#if title}
+    <h1>{title}</h1>
+  {/if}
+  {@render children()}
+</section>
 
 <style>
   h1 {
@@ -31,10 +38,3 @@
     box-shadow: var(--li-hover-shadow);
   }
 </style>
-
-<section>
-  {#if title}
-    <h1>{title}</h1>
-  {/if}
-  {@render children()}
-</section>
