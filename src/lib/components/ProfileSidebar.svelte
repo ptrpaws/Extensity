@@ -24,6 +24,40 @@
   }
 </script>
 
+<div class="sidebar">
+  <form onsubmit={handleAddProfile}>
+    <input bind:value={newProfileName} id="name" placeholder="New Profile Name" type="text" />
+    <button aria-label="Add new profile" class="add" type="submit">
+      <Icon data={plusCircle} />
+    </button>
+  </form>
+
+  <ul class="items">
+    {#each profiles as profile (profile.value.name)}
+      <li class:active={currentProfile?.value.name === profile.value.name}>
+        {#if !profile.isReserved}
+          <button
+            type="button"
+            class="remove-button"
+            aria-label="Remove profile {profile.shortName}"
+            onclick={() => onRemove(profile)}
+          >
+            <Icon data={trashO} />
+          </button>
+        {:else if profile.value.name === '__always_on'}
+          <span class="profile-icon"><Icon data={lightbulbO} /></span>
+        {:else if profile.value.name === '__favorites'}
+          <span class="profile-icon"><Icon data={star} /></span>
+        {/if}
+
+        <button type="button" class="select-button" onclick={() => onSelect(profile)}>
+          {profile.shortName}
+        </button>
+      </li>
+    {/each}
+  </ul>
+</div>
+
 <style>
   .sidebar {
     float: left;
@@ -79,7 +113,8 @@
     border-color: var(--input-border);
   }
 
-  .select-button, .remove-button {
+  .select-button,
+  .remove-button {
     background: none;
     border: none;
     color: inherit;
@@ -109,49 +144,4 @@
     width: 1em;
     justify-content: center;
   }
-
 </style>
-
-<div class="sidebar">
-  <form onsubmit={handleAddProfile}>
-    <input
-      bind:value={newProfileName}
-      id="name"
-      placeholder="New Profile Name"
-      type="text"
-    />
-    <button aria-label="Add new profile" class="add" type="submit">
-      <Icon data={plusCircle}/>
-    </button>
-  </form>
-
-  <ul class="items">
-    {#each profiles as profile (profile.value.name)}
-      <li class:active={currentProfile?.value.name === profile.value.name}>
-
-        {#if !profile.isReserved}
-          <button
-            type="button"
-            class="remove-button"
-            aria-label="Remove profile {profile.shortName}"
-            onclick={() => onRemove(profile)}
-          >
-            <Icon data={trashO}/>
-          </button>
-        {:else if profile.value.name === '__always_on'}
-          <span class="profile-icon"><Icon data={lightbulbO}/></span>
-        {:else if profile.value.name === '__favorites'}
-          <span class="profile-icon"><Icon data={star}/></span>
-        {/if}
-
-        <button
-          type="button"
-          class="select-button"
-          onclick={() => onSelect(profile)}
-        >
-          {profile.shortName}
-        </button>
-      </li>
-    {/each}
-  </ul>
-</div>

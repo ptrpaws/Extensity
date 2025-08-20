@@ -1,5 +1,5 @@
 <script>
-  import {onMount} from 'svelte';
+  import { onMount } from 'svelte';
   import Icon from 'svelte-awesome';
   import trash from 'svelte-awesome/icons/trash';
   import cog from 'svelte-awesome/icons/cog';
@@ -8,9 +8,9 @@
   import star from 'svelte-awesome/icons/star';
   import lightbulbO from 'svelte-awesome/icons/lightbulbO';
   import shield from 'svelte-awesome/icons/shield';
-  import {profiles} from '../stores/profiles.svelte.js';
+  import { profiles } from '../stores/profiles.svelte.js';
 
-  let {item, x, y, onClose = () => {}, onViewPermissions = () => {}} = $props();
+  let { item, x, y, onClose = () => {}, onViewPermissions = () => {} } = $props();
 
   const isFavorite = $derived(profiles.find('__favorites')?.value.items.includes(item.id));
   const isAlwaysOn = $derived(profiles.find('__always_on')?.value.items.includes(item.id));
@@ -47,7 +47,6 @@
       finalY = Math.max(5, newY);
 
       isPositioned = true;
-
     }, 0);
 
     return () => clearTimeout(timer);
@@ -66,25 +65,25 @@
   }
 
   async function handleUninstall() {
-    await chrome.management.uninstall(item.id, {showConfirmDialog: true});
+    await chrome.management.uninstall(item.id, { showConfirmDialog: true });
     onClose();
   }
 
   function handleOptions() {
     if (!item.optionsUrl) return;
-    chrome.tabs.create({url: item.optionsUrl});
+    chrome.tabs.create({ url: item.optionsUrl });
     onClose();
   }
 
   function handleHomepage() {
     if (!item.homepageUrl) return;
-    chrome.tabs.create({url: item.homepageUrl});
+    chrome.tabs.create({ url: item.homepageUrl });
     onClose();
   }
 
   function handleWebView() {
     const webstoreUrl = `https://chrome.google.com/webstore/detail/${item.id}`;
-    chrome.tabs.create({url: webstoreUrl});
+    chrome.tabs.create({ url: webstoreUrl });
     onClose();
   }
 
@@ -112,6 +111,79 @@
     };
   });
 </script>
+
+<div
+  class="context-menu"
+  class:positioned={isPositioned}
+  role="menu"
+  tabindex="-1"
+  bind:this={menuElement}
+  style="left: {finalX}px; top: {finalY}px;"
+  onclick={(event) => event.stopPropagation()}
+  onkeydown={() => {}}
+>
+  <ul>
+    <li>
+      <button type="button" class="menu-button" onclick={toggleFavorite}>
+        <span class="icon"><Icon data={star} /></span>
+        {#if isFavorite}Remove from Favorites{:else}Add to Favorites{/if}
+      </button>
+    </li>
+
+    <li>
+      <button type="button" class="menu-button" onclick={toggleAlwaysOn}>
+        <span class="icon"><Icon data={lightbulbO} /></span>
+        {#if isAlwaysOn}Remove from Always On{:else}Add to Always On{/if}
+      </button>
+    </li>
+
+    <li class="separator"></li>
+
+    <li>
+      <button type="button" class="menu-button" onclick={onViewPermissions}>
+        <span class="icon"><Icon data={shield} /></span> View Permissions
+      </button>
+    </li>
+
+    {#if item.optionsUrl}
+      <li>
+        <button
+          type="button"
+          class="menu-button"
+          disabled={!item.enabled}
+          onclick={handleOptions}
+          title={item.enabled ? item.optionsUrl : 'Enable the extension to view options'}
+        >
+          <span class="icon"><Icon data={cog} /></span> Options
+        </button>
+      </li>
+    {/if}
+
+    {#if item.homepageUrl}
+      <li>
+        <button type="button" class="menu-button" onclick={handleHomepage} title={item.homepageUrl}>
+          <span class="icon"><Icon data={home} /></span> Homepage
+        </button>
+      </li>
+    {/if}
+
+    <li class="separator"></li>
+
+    <li>
+      <button type="button" class="menu-button" onclick={handleWebView}>
+        <span class="icon"><Icon data={shoppingCart} /></span> View on Web Store
+      </button>
+    </li>
+
+    {#if item.mayDisable}
+      <li>
+        <button type="button" class="menu-button" onclick={handleUninstall}>
+          <span class="icon"><Icon data={trash} /></span> Uninstall...
+        </button>
+      </li>
+    {/if}
+  </ul>
+</div>
 
 <style>
   .context-menu {
@@ -205,76 +277,3 @@
     filter: none;
   }
 </style>
-
-<div
-  class="context-menu"
-  class:positioned={isPositioned}
-  role="menu"
-  tabindex="-1"
-  bind:this={menuElement}
-  style="left: {finalX}px; top: {finalY}px;"
-  onclick={(event) => event.stopPropagation()}
-  onkeydown={() => {}}
->
-  <ul>
-    <li>
-      <button type="button" class="menu-button" onclick={toggleFavorite}>
-        <span class="icon"><Icon data={star}/></span>
-        {#if isFavorite}Remove from Favorites{:else}Add to Favorites{/if}
-      </button>
-    </li>
-
-    <li>
-      <button type="button" class="menu-button" onclick={toggleAlwaysOn}>
-        <span class="icon"><Icon data={lightbulbO}/></span>
-        {#if isAlwaysOn}Remove from Always On{:else}Add to Always On{/if}
-      </button>
-    </li>
-
-    <li class="separator"></li>
-
-    <li>
-      <button type="button" class="menu-button" onclick={onViewPermissions}>
-        <span class="icon"><Icon data={shield}/></span> View Permissions
-      </button>
-    </li>
-
-    {#if item.optionsUrl}
-      <li>
-        <button
-          type="button"
-          class="menu-button"
-          disabled={!item.enabled}
-          onclick={handleOptions}
-          title={item.enabled ? item.optionsUrl : 'Enable the extension to view options'}
-        >
-          <span class="icon"><Icon data={cog}/></span> Options
-        </button>
-      </li>
-    {/if}
-
-    {#if item.homepageUrl}
-      <li>
-        <button type="button" class="menu-button" onclick={handleHomepage} title={item.homepageUrl}>
-          <span class="icon"><Icon data={home}/></span> Homepage
-        </button>
-      </li>
-    {/if}
-
-    <li class="separator"></li>
-
-    <li>
-      <button type="button" class="menu-button" onclick={handleWebView}>
-        <span class="icon"><Icon data={shoppingCart}/></span> View on Web Store
-      </button>
-    </li>
-
-    {#if item.mayDisable}
-      <li>
-        <button type="button" class="menu-button" onclick={handleUninstall}>
-          <span class="icon"><Icon data={trash}/></span> Uninstall...
-        </button>
-      </li>
-    {/if}
-  </ul>
-</div>

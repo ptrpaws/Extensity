@@ -1,7 +1,7 @@
 <script>
-  import {extensions} from '../stores/extensions.svelte.js';
-  import {state as optionsState} from '../stores/options.svelte.js';
-  import {profiles} from '../stores/profiles.svelte.js';
+  import { extensions } from '../stores/extensions.svelte.js';
+  import { state as optionsState } from '../stores/options.svelte.js';
+  import { profiles } from '../stores/profiles.svelte.js';
   import Icon from 'svelte-awesome';
   import cog from 'svelte-awesome/icons/cog';
   import userCircleO from 'svelte-awesome/icons/userCircleO';
@@ -27,7 +27,7 @@
       const alwaysOnProfile = profiles.find('__always_on');
       const alwaysOnIds = new Set(alwaysOnProfile ? alwaysOnProfile.value.items : []);
 
-      const toDisable = extensions.enabled.filter(ext => {
+      const toDisable = extensions.enabled.filter((ext) => {
         return !(optionsState.keepAlwaysOn && alwaysOnIds.has(ext.id));
       });
 
@@ -41,9 +41,79 @@
 
   function openExtensionsPage(event) {
     event.preventDefault();
-    chrome.tabs.create({url: 'chrome://extensions'});
+    chrome.tabs.create({ url: 'chrome://extensions' });
   }
 </script>
+
+<section id="header">
+  <h1>
+    <a
+      href="https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg"
+      id="title"
+      target="_blank"
+    >
+      <img alt="" height="16" src="/images/icon128.png" width="16" />&nbsp;Extensity
+    </a>
+    <div class="actions-group">
+      <button
+        aria-label="Switch all extensions off/on"
+        class="switch"
+        class:toggled-off={allToggledOff}
+        onclick={flipAll}
+        title="Switch all extensions off/on"
+        type="button"
+      >
+        <Icon data={toggleIcon} />
+      </button>
+      <a
+        aria-label="Chrome Extensions"
+        class="page"
+        href="chrome://extensions"
+        onclick={openExtensionsPage}
+        target="_blank"
+        title="Chrome Extensions"
+      >
+        <Icon data={puzzlePiece} />
+      </a>
+      <a aria-label="Profiles" class="page" href="profiles.html" target="_blank" title="Profiles">
+        <Icon data={userCircleO} />
+      </a>
+      <a
+        aria-label="Extensity options"
+        class="page"
+        href="options.html"
+        target="_blank"
+        title="Extensity options"
+      >
+        <Icon data={cog} />
+      </a>
+      <a
+        href="https://twitter.com/share?url=https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg&via=ExtensityChrome&text=Keep control of your Chrome extensions with Extensity. Quickly enable/disable any extension!"
+        class="page twitter-icon"
+        target="_blank"
+        title="Share Extensity on Twitter. Thanks!"
+      >
+        <Icon data={twitter} />
+      </a>
+      <a
+        href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg?hl=en"
+        class="page facebook-icon"
+        target="_blank"
+        title="Share Extensity on Facebook. Thanks!"
+      >
+        <Icon data={facebookOfficial} />
+      </a>
+      <a
+        href="https://chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg/reviews"
+        class="page star-icon"
+        target="_blank"
+        title="Rate Extensity. Thanks!"
+      >
+        <Icon data={star} />
+      </a>
+    </div>
+  </h1>
+</section>
 
 <style>
   section {
@@ -79,7 +149,8 @@
     gap: 7px;
   }
 
-  .page, .switch {
+  .page,
+  .switch {
     font-size: 1.4em;
     cursor: pointer;
     outline: none;
@@ -93,9 +164,10 @@
     padding: 0;
   }
 
-  .page :global(svg), .switch :global(svg) {
+  .page :global(svg),
+  .switch :global(svg) {
     color: var(--header-icon);
-    opacity: .6;
+    opacity: 0.6;
     transition: opacity 0.2s;
   }
 
@@ -108,7 +180,7 @@
   }
 
   a.star-icon :global(svg) {
-    color: #FF9300;
+    color: #ff9300;
   }
 
   a.facebook-icon :global(svg) {
@@ -116,7 +188,7 @@
   }
 
   a.twitter-icon :global(svg) {
-    color: #55A4DA;
+    color: #55a4da;
   }
 
   :global(#header svg) {
@@ -126,57 +198,3 @@
     vertical-align: -0.125em;
   }
 </style>
-
-<section id="header">
-  <h1>
-    <a href="https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg" id="title" target="_blank">
-      <img alt="" height="16" src="/images/icon128.png" width="16"/>&nbsp;Extensity
-    </a>
-    <div class="actions-group">
-      <button aria-label="Switch all extensions off/on" class="switch" class:toggled-off={allToggledOff} onclick={flipAll}
-              title="Switch all extensions off/on" type="button">
-        <Icon data={toggleIcon}/>
-      </button>
-      <a
-        aria-label="Chrome Extensions"
-        class="page"
-        href="chrome://extensions"
-        onclick={openExtensionsPage}
-        target="_blank"
-        title="Chrome Extensions"
-      >
-        <Icon data={puzzlePiece}/>
-      </a>
-      <a aria-label="Profiles" class="page" href="profiles.html" target="_blank" title="Profiles">
-        <Icon data={userCircleO}/>
-      </a>
-      <a aria-label="Extensity options" class="page" href="options.html" target="_blank" title="Extensity options">
-        <Icon data={cog}/>
-      </a>
-      <a
-        href="https://twitter.com/share?url=https://chrome.google.com/webstore/detail/jjmflmamggggndanpgfnpelongoepncg&via=ExtensityChrome&text=Keep control of your Chrome extensions with Extensity. Quickly enable/disable any extension!"
-        class="page twitter-icon"
-        target="_blank"
-        title="Share Extensity on Twitter. Thanks!"
-      >
-        <Icon data={twitter}/>
-      </a>
-      <a
-        href="https://www.facebook.com/sharer/sharer.php?u=https%3A//chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg?hl=en"
-        class="page facebook-icon"
-        target="_blank"
-        title="Share Extensity on Facebook. Thanks!"
-      >
-        <Icon data={facebookOfficial}/>
-      </a>
-      <a
-        href="https://chrome.google.com/webstore/detail/extensity/jjmflmamggggndanpgfnpelongoepncg/reviews"
-        class="page star-icon"
-        target="_blank"
-        title="Rate Extensity. Thanks!"
-      >
-        <Icon data={star}/>
-      </a>
-    </div>
-  </h1>
-</section>

@@ -1,17 +1,46 @@
 <script>
-  import {state as optionsState} from '../stores/options.svelte.js';
+  import { state as optionsState } from '../stores/options.svelte.js';
   import Icon from 'svelte-awesome';
   import flask from 'svelte-awesome/icons/flask';
   import cog from 'svelte-awesome/icons/cog';
-  import {prune} from '../utils.js';
+  import { prune } from '../utils.js';
 
-  let {item, onclick = () => {}, oncontextmenu = () => {}} = $props();
+  let { item, onclick = () => {}, oncontextmenu = () => {} } = $props();
 
   function launchOptions(event) {
     event.stopPropagation();
-    chrome.tabs.create({url: item.optionsUrl});
+    chrome.tabs.create({ url: item.optionsUrl });
   }
 </script>
+
+<li
+  oncontextmenu={(event) => {
+    event.preventDefault();
+    oncontextmenu(event);
+  }}
+  class:disabled={!item.enabled && item.type === 'extension'}
+>
+  <button class="main-action" {onclick} type="button">
+    <img alt="" height="16" src={item.icon} width="16" />
+    <span class="name">{prune(item.name, 40)}</span>
+
+    {#if item.installType === 'development'}
+      <span class="dev-icon" title="Development"><Icon data={flask} /></span>
+    {/if}
+  </button>
+
+  {#if optionsState.showOptions && item.optionsUrl && item.enabled}
+    <button
+      type="button"
+      class="options-button"
+      title="Options"
+      aria-label="Options for {item.name}"
+      onclick={launchOptions}
+    >
+      <Icon data={cog} />
+    </button>
+  {/if}
+</li>
 
 <style>
   li {
@@ -109,32 +138,3 @@
     vertical-align: -0.125em;
   }
 </style>
-
-<li
-  oncontextmenu={(event) => {
-    event.preventDefault();
-    oncontextmenu(event);
-  }}
-  class:disabled={!item.enabled && item.type === 'extension'}
->
-  <button class="main-action" {onclick} type="button">
-    <img alt="" height="16" src={item.icon} width="16"/>
-    <span class="name">{prune(item.name, 40)}</span>
-
-    {#if item.installType === 'development'}
-      <span class="dev-icon" title="Development"><Icon data={flask}/></span>
-    {/if}
-  </button>
-
-  {#if optionsState.showOptions && item.optionsUrl && item.enabled}
-    <button
-      type="button"
-      class="options-button"
-      title="Options"
-      aria-label="Options for {item.name}"
-      onclick={launchOptions}
-    >
-      <Icon data={cog}/>
-    </button>
-  {/if}
-</li>

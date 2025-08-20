@@ -1,4 +1,4 @@
-import {mount} from 'svelte';
+import { mount } from 'svelte';
 import Popup from './Popup.svelte';
 import 'normalize.css';
 import '../styles/theme.css';

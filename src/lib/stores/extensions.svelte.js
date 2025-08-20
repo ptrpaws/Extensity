@@ -1,4 +1,4 @@
-import {getAllExtensions} from './chrome.svelte.js';
+import { getAllExtensions } from './chrome.svelte.js';
 
 function createExtensionsStore() {
   let all = $state([]);
@@ -33,7 +33,7 @@ function createExtensionsStore() {
         })
         .sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
     } catch (e) {
-      console.error("Failed to load extensions:", e);
+      console.error('Failed to load extensions:', e);
     }
   })();
 

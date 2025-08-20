@@ -1,4 +1,4 @@
-import {storageGet, storageSet} from './chrome.svelte.js';
+import { storageGet, storageSet } from './chrome.svelte.js';
 
 const DEFAULTS = {
   showHeader: true,
@@ -9,10 +9,10 @@ const DEFAULTS = {
   showReserved: false,
 };
 
-export const state = $state({...DEFAULTS});
+export const state = $state({ ...DEFAULTS });
 
 export async function save() {
-  const dataToSave = {...state};
+  const dataToSave = { ...state };
   await storageSet(dataToSave);
 }
 
@@ -23,6 +23,6 @@ export async function save() {
       Object.assign(state, storedOptions);
     }
   } catch (e) {
-    console.error("Failed to load options:", e);
+    console.error('Failed to load options:', e);
   }
 })();

@@ -1,16 +1,16 @@
 <script>
-  let {checked = $bindable(), id, children} = $props();
+  let { checked = $bindable(), id, children } = $props();
 </script>
+
+<div class="field">
+  <input bind:checked {id} type="checkbox" />
+  <label for={id}>{@render children()}</label>
+</div>
 
 <style>
   .field {
     float: left;
     clear: left;
-    margin: .8em 0;
+    margin: 0.8em 0;
   }
 </style>
-
-<div class="field">
-  <input bind:checked={checked} {id} type="checkbox"/>
-  <label for={id}>{@render children()}</label>
-</div>

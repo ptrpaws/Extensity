@@ -20,7 +20,10 @@ body.options-page {
   margin: 50px;
   overflow-x: hidden;
   overflow-y: auto;
-  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  font-family:
+    Lucida Sans Unicode,
+    Lucida Grande,
+    sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
 }
@@ -30,10 +33,13 @@ button.primary,
   cursor: pointer;
   font-weight: bold;
   font-size: 1em;
-  font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+  font-family:
+    Lucida Sans Unicode,
+    Lucida Grande,
+    sans-serif;
   color: #ffffff;
-  background-color: #516C97;
-  border-color: #516C97;
+  background-color: #516c97;
+  border-color: #516c97;
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
@@ -42,7 +48,7 @@ button.primary,
 
 button.primary:hover,
 .options-page button:hover {
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .link-button {
@@ -62,7 +68,7 @@ button.primary:hover,
 }
 
 .options-page fieldset {
-  margin-top: .5em;
+  margin-top: 0.5em;
   border: none;
 }
 

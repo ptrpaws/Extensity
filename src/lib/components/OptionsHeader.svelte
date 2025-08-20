@@ -3,8 +3,35 @@
   import exclamationTriangle from 'svelte-awesome/icons/exclamationTriangle';
   import arrowCircleRight from 'svelte-awesome/icons/arrowCircleRight';
 
-  let {currentPage = 'options'} = $props();
+  let { currentPage = 'options' } = $props();
 </script>
+
+<section id="header">
+  <div class="tabs">
+    <h1><img alt="" src="/images/icon128.png" height="48" width="48" /> Extensity Options</h1>
+    <div id="menu">
+      <a class:selected={currentPage === 'options'} href="/options.html">Options</a>
+      <a class:selected={currentPage === 'profiles'} href="/profiles.html">Profiles</a>
+    </div>
+  </div>
+  <div class="help">
+    <Icon data={exclamationTriangle} />
+    <strong>
+      <a href="https://sergiokas.github.io/Extensity/help.html" target="_blank"
+        >Support Extensity!</a
+      >
+    </strong>
+    <br /><br />
+    If you like Extensity and its new Profiles feature,
+
+    <a href="https://sergiokas.github.io/Extensity/help.html" target="_blank">
+      please consider helping out with its development
+      <Icon data={arrowCircleRight} />
+    </a>
+  </div>
+</section>
+
+<div class="clear" style="clear: both;"></div>
 
 <style>
   #header {
@@ -44,9 +71,9 @@
     cursor: pointer;
     font-weight: bold;
     font-size: 1em;
-    color: #516C97;
+    color: #516c97;
     background-color: #fff;
-    border: 1px solid #516C97;
+    border: 1px solid #516c97;
     border-radius: 5px;
     padding: 5px 10px;
     text-decoration: none;
@@ -57,7 +84,7 @@
   }
 
   #header #menu a.selected {
-    background-color: #516C97;
+    background-color: #516c97;
     color: white;
   }
 
@@ -68,32 +95,3 @@
     vertical-align: -0.125em;
   }
 </style>
-
-<section id="header">
-  <div class="tabs">
-    <h1><img alt="" src="/images/icon128.png" height="48" width="48"/> Extensity Options</h1>
-    <div id="menu">
-      <a class:selected={currentPage === 'options'} href="/options.html">Options</a>
-      <a class:selected={currentPage === 'profiles'} href="/profiles.html">Profiles</a>
-    </div>
-  </div>
-  <div class="help">
-    <Icon data={exclamationTriangle}/>
-    <strong>
-      <a href="https://sergiokas.github.io/Extensity/help.html" target="_blank">Support
-        Extensity!</a>
-    </strong>
-    <br/><br/>
-    If you like Extensity and its new Profiles feature,
-
-    <a
-      href="https://sergiokas.github.io/Extensity/help.html"
-      target="_blank"
-    >
-      please consider helping out with its development
-      <Icon data={arrowCircleRight}/>
-    </a>
-  </div>
-</section>
-
-<div class="clear" style="clear: both;"></div>

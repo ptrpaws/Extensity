@@ -1,5 +1,5 @@
 <script>
-  import {state as optionsState, save as saveOptions} from '../lib/stores/options.svelte.js';
+  import { state as optionsState, save as saveOptions } from '../lib/stores/options.svelte.js';
   import OptionsHeader from '../lib/components/OptionsHeader.svelte';
   import CheckboxOption from '../lib/components/CheckboxOption.svelte';
 
@@ -18,18 +18,7 @@
   }
 </script>
 
-<style>
-  .form-actions {
-    clear: both;
-    padding-top: 1.5em;
-  }
-
-  #save-result {
-    transition: visibility 0s .5s, opacity .5s linear;
-  }
-</style>
-
-<OptionsHeader currentPage="options"/>
+<OptionsHeader currentPage="options" />
 
 <section id="content">
   <fieldset id="options">
@@ -66,3 +55,16 @@
     </div>
   </fieldset>
 </section>
+
+<style>
+  .form-actions {
+    clear: both;
+    padding-top: 1.5em;
+  }
+
+  #save-result {
+    transition:
+      visibility 0s 0.5s,
+      opacity 0.5s linear;
+  }
+</style>
