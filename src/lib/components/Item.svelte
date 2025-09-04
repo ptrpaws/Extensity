@@ -3,6 +3,7 @@
   import Icon from 'svelte-awesome';
   import flask from 'svelte-awesome/icons/flask';
   import cog from 'svelte-awesome/icons/cog';
+  import refresh from 'svelte-awesome/icons/refresh';
   import { prune } from '../utils.js';
 
   let { item, onclick = () => {}, oncontextmenu = () => {} } = $props();
@@ -10,6 +11,17 @@
   function launchOptions(event) {
     event.stopPropagation();
     chrome.tabs.create({ url: item.optionsUrl });
+  }
+
+  async function reloadExtension(event) {
+    event.stopPropagation();
+    if (item.installType !== 'development' || !item.enabled) return;
+    try {
+      await chrome.management.setEnabled(item.id, false);
+      await chrome.management.setEnabled(item.id, true);
+    } catch (e) {
+      console.error(`Failed to reload extension ${item.id}:`, e);
+    }
   }
 </script>
 
@@ -29,10 +41,22 @@
     {/if}
   </button>
 
+  {#if item.installType === 'development' && item.enabled}
+    <button
+      type="button"
+      class="action-button"
+      title="Reload extension"
+      aria-label="Reload {item.name}"
+      onclick={reloadExtension}
+    >
+      <Icon data={refresh} />
+    </button>
+  {/if}
+
   {#if optionsState.showOptions && item.optionsUrl && item.enabled}
     <button
       type="button"
-      class="options-button"
+      class="action-button"
       title="Options"
       aria-label="Options for {item.name}"
       onclick={launchOptions}
@@ -58,12 +82,12 @@
     text-shadow: var(--li-hover-text-shadow);
   }
 
-  li:hover .options-button :global(svg) {
+  li:hover .action-button :global(svg) {
     filter: drop-shadow(0 1px 0px white);
   }
 
   @media (prefers-color-scheme: dark) {
-    li:hover .options-button :global(svg) {
+    li:hover .action-button :global(svg) {
       filter: drop-shadow(0 1px 0px black);
     }
   }
@@ -104,11 +128,11 @@
     min-width: 0;
   }
 
-  .options-button {
+  .action-button {
     background: none;
     border: none;
     padding: 0;
-    margin: 0 0 0 auto;
+    margin: 0;
     cursor: pointer;
     flex-shrink: 0;
     font-size: 1.1em;
@@ -117,12 +141,12 @@
     transition: color 0.1s ease-in-out;
   }
 
-  .options-button:hover {
+  .action-button:hover {
     color: #333;
   }
 
   @media (prefers-color-scheme: dark) {
-    .options-button:hover {
+    .action-button:hover {
       color: #eee;
     }
   }
