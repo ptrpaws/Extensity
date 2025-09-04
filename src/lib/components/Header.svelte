@@ -176,7 +176,8 @@
     transition: opacity 0.2s;
   }
 
-  .page:hover :global(svg) {
+  .page:hover :global(svg),
+  .switch:hover :global(svg) {
     opacity: 1;
   }
 
