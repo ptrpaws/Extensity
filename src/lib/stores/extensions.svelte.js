@@ -5,9 +5,10 @@ function createExtensionsStore() {
 
   (async () => {
     try {
+      const self = await chrome.management.getSelf();
       const results = await getAllExtensions();
       all = results
-        .filter((ext) => ext.name !== 'Extensity' && ext.type !== 'theme')
+        .filter((ext) => ext.id !== self.id && ext.type !== 'theme')
         .map((ext) => {
           const reactiveExt = $state({
             ...ext,
